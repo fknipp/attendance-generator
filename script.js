@@ -42,7 +42,7 @@ function processUrl(url) {
   console.log(url);
   try {
     lvid = url.match(/lvid=([0-9]+)/)[1];
-    stsem = url.match(/stsem=([WS]S\d\d\d\d)/)[1];
+    stsem = url.match(/(stsem|studiensemester_kurzbz)=([WS]S\d\d\d\d)/)[2];
     console.log({ lvid, stsem });
     activateStep(2);
   } catch (e) {
