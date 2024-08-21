@@ -1,5 +1,6 @@
 let lvid;
 let stsem;
+let wb;
 
 function activateStep(step) {
   document
@@ -18,28 +19,100 @@ function activateStep(step) {
       begin.getTime() / 1000
     }&ende=${ende.getTime() / 1000}&format=excel`;
     document.querySelector(".step-2 a").href = url;
+  } else if (step === 3) {
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    document.querySelector(".step-3 .table").innerHTML =
+      XLSX.utils.sheet_to_html(ws);
   }
 }
 
+activateStep(1);
+
 document.querySelector(".step-1 form").addEventListener("submit", (e) => {
   e.preventDefault();
-  console.log(e.target);
   processUrl(e.target.url.value);
 });
 
 document.querySelector(".step-1 form input").addEventListener("input", (e) => {
   e.preventDefault();
-  processUrl(e.target.url);
+  processUrl(e.target.value);
 });
 
 function processUrl(url) {
+  console.log(url);
   try {
     lvid = url.match(/lvid=([0-9]+)/)[1];
     stsem = url.match(/stsem=([WS]S\d\d\d\d)/)[1];
     console.log({ lvid, stsem });
     activateStep(2);
   } catch (e) {
+    console.log(e);
     document.querySelector(".step-1 form .error").innerText =
       "Keine gültige Adresse.";
   }
 }
+
+document.querySelector(".step-2 form input").addEventListener("change", (e) => {
+  e.preventDefault();
+  processFile(e.target.files[0]);
+});
+
+async function processFile(file) {
+  try {
+    const data = await file.arrayBuffer();
+    wb = XLSX.read(data);
+    activateStep(3);
+  } catch (e) {
+    console.log(e);
+    document.querySelector(".step-2 form .error").innerText = "Ungültige Datei";
+  }
+}
+
+document.querySelector(".step-3 button").addEventListener("click", () => {
+  const ws = wb.Sheets[wb.SheetNames[0]];
+  const xlsData = XLSX.utils.sheet_to_json(ws);
+  console.log(xlsData);
+
+  const importData = xlsData.map(
+    ({
+      Datum,
+      Von,
+      Bis,
+      Ort,
+      Lektoren,
+      Gruppen,
+      Lehrfach,
+      StundeVon,
+      StundeBis,
+    }) => ({
+      groups: Gruppen.replace(",", ";").replace(/\s/g, ""),
+      sessiondate: Datum,
+      from: Von.substring(0, 5),
+      to: Bis.substring(0, 5),
+      description: `${Lektoren} – ${Ort} (${StundeBis - StundeVon + 1} LE)`,
+      repeaton: "",
+      repeatevery: "",
+      repeatuntil: "",
+      studentscanmark: 1,
+      allowupdatestatus: "",
+      passwordgrp: "",
+      randompassword: 1,
+      subnet: "",
+      automark: 2,
+      autoassignstatus: 1,
+      absenteereport: 1,
+      preventsharedip: "",
+      preventsharediptime: "",
+      calendarevent: "",
+      includeqrcode: 1,
+      rotateqrcode: 1,
+    })
+  );
+
+  console.log(importData);
+
+  const importWs = XLSX.utils.json_to_sheet(importData);
+  const importWb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(importWb, importWs, "Sheet1");
+  XLSX.writeFile(importWb, "Anwesenheit.csv", { FS: ";" });
+});

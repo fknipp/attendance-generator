@@ -39,3 +39,23 @@ input {
 .error {
   color: red;
 }
+
+.step-3 .table {
+  margin-top: 2em;
+}
+
+.step-3 table {
+  border: 1px solid black;
+  border-collapse: collapse;
+
+  & tr:nth-child(2n + 1) {
+    background-color: #ccc;
+  }
+
+  & tr:nth-child(1) {
+    font-weight: bold;
+    background-color: black;
+    color: white;
+  }
+
+}

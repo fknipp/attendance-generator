@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="script.js"></script>
+    <script src="xlsx.full.min.js"></script>
   </head>
+
   <body>
     <main>
       <h1>Termine für Moodle-Aktivität <em>Anwesenheit</em> erzeugen</h1>
@@ -26,14 +28,12 @@
             <em>Link-Adresse kopieren</em> oder
             <em>Adresse des Links kopieren</em>.
           </li>
-          <li>
-            Fügen Sie die Adresse im untenstehenden Textfeld ein.
-          </li>
+          <li>Fügen Sie die Adresse im untenstehenden Textfeld ein.</li>
         </ol>
 
         <form>
           <label for="url">Adresse</label>
-          <input type="text" name="url" id="url">
+          <input type="text" name="url" id="url" />
           <p class="error"></p>
         </form>
         <iframe src="load-cis.html"></iframe>
@@ -43,18 +43,56 @@
         <h2>Schritt 2: Laden der Lehrveranstaltungs-Termine</h2>
         <ol>
           <li>
-            Laden Sie die Lehrveranstaltungstermine über diesen <a href="">Link</a> herunter.
+            Laden Sie die Lehrveranstaltungstermine über diesen
+            <a href="">Link</a> herunter.
           </li>
           <li>Laden Sie die Termine über untenstehendes Feld hoch.</li>
         </ol>
 
         <form>
           <label for="xls">Datei-Upload</label>
-          <input type="file" name="xls" id="xls">
+          <input type="file" name="xls" id="xls" />
           <p class="error"></p>
         </form>
+
+        <div class="table"></div>
       </section>
 
+      <section class="step-3">
+        <h2>Schritt 3: Bereitstellen der Tabelle für den Import</h2>
+        <ol>
+          <li>
+            Prüfen Sie die Korrektheit der Termine in der untenstehenden
+            Tabelle.
+          </li>
+          <li>
+            Laden Sie die Tabelle mit den Terminen für den Import über
+            untenstehenen Button herunter.
+          </li>
+          <li>
+            Stellen Sie sicher, dass in den Einstellungen der Aktivität
+            <em>Anwesenheit</em> der Gruppenmodus auf
+            <em>Getrennte Gruppen</em> eingestellt ist.
+          </li>
+          <li>
+            Importieren Sie diese Tabelle in die Aktivität
+            <em>Anwesenheit</em> über die dortige Importfunktion mit dem
+            Strichpunkt (;) als CSV-Trennzeichen.
+          </li>
+          <li>
+            Ignorieren Sie Fehlermeldungen über nicht vorhandene Gruppen, falls
+            diese angezeigt werden.
+          </li>
+        </ol>
+        <p>
+          Nun können Sie die Anwesenheit durch Herzeigen des QR-Codes während
+          der Lehrveranstaltung automatisiert erfassen.
+        </p>
+
+        <button>Download der Tabelle</button>
+
+        <div class="table"></div>
+      </section>
     </main>
   </body>
 </html>
