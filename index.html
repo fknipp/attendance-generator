@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Home</title>
+    <title>Generator für Aktivität Anwesenheit</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
     <link rel="stylesheet" href="styles.css" />
     <script type="module" src="script.js"></script>
   </head>
   <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
     <main>
-      <h1>Home page</h1>
+      <h1>Termine für Moodle-Aktivität <em>Anwesenheit</em> erzeugen</h1>
+
+      <section class="step-1">
+        <h2>Schritt 1: Herausfinden der Lehrveranstaltungs-ID</h2>
+        <p>Die Lehrveranstaltungs-ID kann über CIS bestimmt werden.</p>
+        <ol>
+          <li>
+            Öffnen Sie die Lehrveranstaltungsübersicht durch Klick auf den
+            Button.
+          </li>
+          <li>Wählen Sie die gewünschte Lehrveranstaltung aus.</li>
+          <li>
+            Wenn der Mauszeiger über der gewünschten Lehrveranstaltung steht,
+            drücken Sie die rechte Maustaste und wählen Sie
+            <em>Link-Adresse kopieren</em> oder
+            <em>Adresse des Links kopieren</em>.
+          </li>
+          <li>
+            Fügen Sie die Adresse im untenstehenden Textfeld ein.
+          </li>
+        </ol>
+
+        <form>
+          <label for="url">Adresse</label>
+          <input type="text" name="url" id="url">
+          <p class="error"></p>
+        </form>
+        <iframe src="load-cis.html"></iframe>
+      </section>
+
+      <section class="step-2">
+        <h2>Schritt 2: Laden der Lehrveranstaltungs-Termine</h2>
+        <ol>
+          <li>
+            Laden Sie die Lehrveranstaltungstermine über diesen <a href="">Link</a> herunter.
+          </li>
+          <li>Laden Sie die Termine über untenstehendes Feld hoch.</li>
+        </ol>
+
+        <form>
+          <label for="xls">Datei-Upload</label>
+          <input type="file" name="xls" id="xls">
+          <p class="error"></p>
+        </form>
+      </section>
+
     </main>
   </body>
 </html>
