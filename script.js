@@ -85,7 +85,7 @@ document.querySelector(".step-3 button").addEventListener("click", () => {
       StundeVon,
       StundeBis,
     }) => ({
-      groups: Gruppen.replace(",", ";").replace(/\s/g, ""),
+      groups: Gruppen.replace(/,/g, ";").replace(/\s/g, ""),
       sessiondate: Datum,
       from: Von.substring(0, 5),
       to: Bis.substring(0, 5),
