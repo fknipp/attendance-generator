@@ -45,7 +45,6 @@ document.querySelector(".step-1 form button").addEventListener("click", (e) => {
   activateStep(2);
 });
 
-
 function processUrl(url) {
   console.log(url);
   try {
@@ -76,56 +75,62 @@ async function processFile(file) {
   }
 }
 
-document.querySelector(".step-3 button.js-download").addEventListener("click", () => {
-  const ws = wb.Sheets[wb.SheetNames[0]];
-  const xlsData = XLSX.utils.sheet_to_json(ws);
-  console.log(xlsData);
+document
+  .querySelector(".step-3 button.js-download")
+  .addEventListener("click", () => {
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const xlsData = XLSX.utils.sheet_to_json(ws);
+    console.log(xlsData);
 
-  const importData = xlsData.map(
-    ({
-      Datum,
-      Von,
-      Bis,
-      Ort,
-      Lektoren,
-      Gruppen,
-      Lehrfach,
-      StundeVon,
-      StundeBis,
-    }) => ({
-      groups: Gruppen.replace(/,/g, ";").replace(/\s/g, ""),
-      sessiondate: Datum,
-      from: Von.substring(0, 5),
-      to: Bis.substring(0, 5),
-      description: `${Lektoren} – ${Ort} (${StundeBis - StundeVon + 1} LE)`,
-      repeaton: "",
-      repeatevery: "",
-      repeatuntil: "",
-      studentscanmark: 1,
-      allowupdatestatus: "",
-      passwordgrp: "",
-      randompassword: 1,
-      subnet: "",
-      automark: 2,
-      autoassignstatus: 1,
-      absenteereport: 1,
-      preventsharedip: "",
-      preventsharediptime: "",
-      calendarevent: "",
-      includeqrcode: 1,
-      rotateqrcode: 1,
-    })
-  );
+    const importData = xlsData.map(
+      ({
+        Datum,
+        Von,
+        Bis,
+        Ort,
+        Lektoren,
+        Gruppen,
+        Lehrfach,
+        StundeVon,
+        StundeBis,
+      }) => ({
+        groups: Array.from(
+          new Set(Gruppen.replace(/\s/g, "").split(/[,/]/))
+        ).join(";"),
+        sessiondate: Datum,
+        from: Von.substring(0, 5),
+        to: Bis.substring(0, 5),
+        description: `${Lektoren} – ${Ort} (${StundeBis - StundeVon + 1} LE)`,
+        repeaton: "",
+        repeatevery: "",
+        repeatuntil: "",
+        studentscanmark: 1,
+        allowupdatestatus: "",
+        passwordgrp: "",
+        randompassword: 1,
+        subnet: "",
+        automark: 2,
+        autoassignstatus: 1,
+        absenteereport: 1,
+        preventsharedip: "",
+        preventsharediptime: "",
+        calendarevent: "",
+        includeqrcode: 1,
+        rotateqrcode: 1,
+      })
+    );
 
-  console.log(importData);
+    console.log(importData);
 
-  const importWs = XLSX.utils.json_to_sheet(importData);
-  const importWb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(importWb, importWs, "Sheet1");
-  XLSX.writeFile(importWb, "Anwesenheit.csv", { FS: ";" });
-});
+    const importWs = XLSX.utils.json_to_sheet(importData);
+    const importWb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(importWb, importWs, "Sheet1");
+    XLSX.writeFile(importWb, "Anwesenheit.csv", { FS: ";" });
+  });
 
-document.querySelector(".step-3 button.js-step1").addEventListener("click", (e) => {
-  e.preventDefault();
-  activateStep(1);
-});
+document
+  .querySelector(".step-3 button.js-step1")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    activateStep(1);
+  });
