@@ -8,7 +8,9 @@ function activateStep(step) {
     .forEach((element) => (element.style.display = "none"));
   document.querySelector(`section.step-${step}`).style.display = "";
 
-  if (step === 2) {
+  if (step === 1) {
+    document.querySelector(".step-1 form input").value = "";
+  } else if (step === 2) {
     console.log(new Date(1722981600000), new Date(1739919600000));
     const year = parseInt(stsem.substring(2));
     const term = stsem.substring(0, 2);
@@ -37,6 +39,12 @@ document.querySelector(".step-1 form input").addEventListener("input", (e) => {
   e.preventDefault();
   processUrl(e.target.value);
 });
+
+document.querySelector(".step-1 form button").addEventListener("click", (e) => {
+  e.preventDefault();
+  activateStep(2);
+});
+
 
 function processUrl(url) {
   console.log(url);
@@ -68,7 +76,7 @@ async function processFile(file) {
   }
 }
 
-document.querySelector(".step-3 button").addEventListener("click", () => {
+document.querySelector(".step-3 button.js-download").addEventListener("click", () => {
   const ws = wb.Sheets[wb.SheetNames[0]];
   const xlsData = XLSX.utils.sheet_to_json(ws);
   console.log(xlsData);
@@ -115,4 +123,9 @@ document.querySelector(".step-3 button").addEventListener("click", () => {
   const importWb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(importWb, importWs, "Sheet1");
   XLSX.writeFile(importWb, "Anwesenheit.csv", { FS: ";" });
+});
+
+document.querySelector(".step-3 button.js-step1").addEventListener("click", (e) => {
+  e.preventDefault();
+  activateStep(1);
 });

@@ -22,6 +22,10 @@ iframe {
   height: 80vh;
 }
 
+form {
+  margin-bottom: 1em;
+}
+
 form > * {
   box-sizing: border-box;
 }
@@ -38,6 +42,10 @@ input {
 
 .error {
   color: red;
+}
+
+.error:empty {
+  display: none;
 }
 
 .step-3 .table {
