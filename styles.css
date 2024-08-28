@@ -30,13 +30,14 @@ form > * {
   box-sizing: border-box;
 }
 
-label {
+form > label {
   display: inline-block;
   width: 19%;
   font-weight: bold;
 }
 
-input {
+form > input, form > .group {
+  display: inline-block;
   width: 80%;
 }
 

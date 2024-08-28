@@ -11,16 +11,20 @@ function activateStep(step) {
   if (step === 1) {
     document.querySelector(".step-1 form input").value = "";
   } else if (step === 2) {
-    console.log(new Date(1722981600000), new Date(1739919600000));
-    const year = parseInt(stsem.substring(2));
-    const term = stsem.substring(0, 2);
-    const begin = term === "WS" ? new Date(year, 8, 7) : new Date(year, 2, 20);
-    const ende =
-      term === "WS" ? new Date(year + 1, 2, 19) : new Date(year, 8, 6);
-    const url = `https://cis.fh-burgenland.at/cis/private/lvplan/stpl_kalender.php?type=lva&pers_uid=&ort_kurzbz=&stg_kz=&sem=&ver=&grp=&gruppe_kurzbz=&lva=${lvid}&begin=${
-      begin.getTime() / 1000
-    }&ende=${ende.getTime() / 1000}&format=excel`;
-    document.querySelector(".step-2 a").href = url;
+    try {
+      const year = parseInt(stsem.substring(2));
+      const term = stsem.substring(0, 2);
+      const begin = term === "WS" ? new Date(year, 8, 7) : new Date(year, 2, 20);
+      const ende =
+        term === "WS" ? new Date(year + 1, 2, 19) : new Date(year, 8, 6);
+      const url = `https://cis.fh-burgenland.at/cis/private/lvplan/stpl_kalender.php?type=lva&pers_uid=&ort_kurzbz=&stg_kz=&sem=&ver=&grp=&gruppe_kurzbz=&lva=${lvid}&begin=${
+        begin.getTime() / 1000
+      }&ende=${ende.getTime() / 1000}&format=excel`;
+      document.querySelector(".step-2 a").href = url;  
+      document.querySelector(".step-2 li:has(a)").style.display = "";
+    } catch(e) {
+      document.querySelector(".step-2 li:has(a)").style.display = "none";
+    }
   } else if (step === 3) {
     const ws = wb.Sheets[wb.SheetNames[0]];
     document.querySelector(".step-3 .table").innerHTML =
@@ -32,15 +36,23 @@ activateStep(1);
 
 document.querySelector(".step-1 form").addEventListener("submit", (e) => {
   e.preventDefault();
-  processUrl(e.target.url.value);
+  lvid = e.target.lvid.value;
+  stsem = e.target.stsem.value;
+  if(lvid.match(/[0-9]+/)) {
+    activateStep(2)
+  } else {
+    document.querySelector(".step-1 form .error").innerText =
+      "Keine gültige Lehrveranstaltungs-ID.";    
+  }
 });
 
-document.querySelector(".step-1 form input").addEventListener("input", (e) => {
+document.querySelector(".step-1 form input[name=url]").addEventListener("input", (e) => {
   e.preventDefault();
   processUrl(e.target.value);
 });
 
-document.querySelector(".step-1 form button").addEventListener("click", (e) => {
+document.querySelector(".step-1 form button.js-step2").addEventListener("click", (e) => {
+  console.log(e);
   e.preventDefault();
   activateStep(2);
 });

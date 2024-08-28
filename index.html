@@ -34,8 +34,20 @@
         <form>
           <label for="url">Adresse</label>
           <input type="text" name="url" id="url" />
+          <label>Alternativ</label>
+          <div class="group">
+            <label for="stsem">Semester</label>
+            <select name="stsem" id="stsem">
+              <option>WS2024</option>
+              <option>SS2025</option>
+              <option>WS2025</option>
+            </select>
+            <label for="lvid">Lehrveranstaltungs-ID</label>
+            <input type="text" name="lvid" maxlength="6" pattern="[0-9]*" id="lvid"/>  
+            <button>Absenden</button>
+          </div>
           <p class="error"></p>
-          <button>Ich habe bereits die Lehrveranstaltungstermine als XLS-Datei</button>
+          <button class="js-step2" type="button">Ich habe bereits die Lehrveranstaltungstermine als XLS-Datei</button>
         </form>
         <iframe src="load-cis.html"></iframe>
       </section>
